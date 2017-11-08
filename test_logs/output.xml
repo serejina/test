@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20171108 11:59:10.993" generator="Robot 3.0.2 (Python 3.4.5 on linux)">
+<suite name="Tests" id="s1" source="/home/masha/docker/roobot_testing/tests.robot">
+<test name="Test Case" id="s1-t1">
+<kw name="Step 1: connect to SQLite database">
+<kw library="BuiltIn" name="Comment">
+<doc>Displays the given messages in the log file as keyword arguments.</doc>
+<arguments>
+<arg>Connect To Database Using Custom Params sqlite3 database='path_to_dbfile/dbname.db'</arg>
+</arguments>
+<status starttime="20171108 11:59:11.098" endtime="20171108 11:59:11.098" status="PASS"></status>
+</kw>
+<kw library="DatabaseLibrary" name="Connect To Database Using Custom Params">
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to</doc>
+<arguments>
+<arg>sqlite3</arg>
+<arg>database="./${DBName}"</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.100" level="INFO">Executing : Connect To Database Using Custom Params : sqlite3.connect(db_api_2.connect(database="././testing/web/clients.db")) </msg>
+<status starttime="20171108 11:59:11.099" endtime="20171108 11:59:11.101" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.098" endtime="20171108 11:59:11.101" status="PASS"></status>
+</kw>
+<kw name="Step 2: get client with a positive balance">
+<kw library="DatabaseLibrary" name="Query">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>SELECT clients_client_id, balance FROM balances WHERE balance &gt; 0 LIMIT 1;</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.102" level="INFO">Executing : Query  |  SELECT clients_client_id, balance FROM balances WHERE balance &gt; 0 LIMIT 1; </msg>
+<msg timestamp="20171108 11:59:11.102" level="INFO">${output} = [(3, 3.5)]</msg>
+<status starttime="20171108 11:59:11.101" endtime="20171108 11:59:11.102" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Get Length">
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<assign>
+<var>${len_output}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.102" level="INFO">Length is 1</msg>
+<msg timestamp="20171108 11:59:11.102" level="INFO">${len_output} = 1</msg>
+<status starttime="20171108 11:59:11.102" endtime="20171108 11:59:11.102" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Run Keyword If">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${len_output} == 1</arg>
+<arg>set_values_to_client_id_balance(${output})</arg>
+<arg>ELSE IF</arg>
+<arg>${len_output} == 0</arg>
+<arg>create_new_valid_user</arg>
+</arguments>
+<kw name="set_values_to_client_id_balance([(3, 3.5)])">
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${str_values.strip('[]').strip('()').split(',')}</arg>
+</arguments>
+<assign>
+<var>${output_list}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.104" level="INFO">${output_list} = ['3', ' 3.5']</msg>
+<status starttime="20171108 11:59:11.103" endtime="20171108 11:59:11.104" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${output_list[0]}</arg>
+</arguments>
+<assign>
+<var>${client_id}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.104" level="INFO">${client_id} = 3</msg>
+<status starttime="20171108 11:59:11.104" endtime="20171108 11:59:11.104" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${output_list[1]}</arg>
+</arguments>
+<assign>
+<var>${init_client_balance}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.105" level="INFO">${init_client_balance} =  3.5</msg>
+<status starttime="20171108 11:59:11.104" endtime="20171108 11:59:11.105" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${client_id}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.105" level="INFO">${client_id} = 3</msg>
+<status starttime="20171108 11:59:11.105" endtime="20171108 11:59:11.105" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${init_client_balance}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.106" level="INFO">${init_client_balance} =  3.5</msg>
+<status starttime="20171108 11:59:11.105" endtime="20171108 11:59:11.106" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${client_id} ${init_client_balance}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.106" level="INFO">3  3.5</msg>
+<status starttime="20171108 11:59:11.106" endtime="20171108 11:59:11.106" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.103" endtime="20171108 11:59:11.106" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.103" endtime="20171108 11:59:11.106" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.101" endtime="20171108 11:59:11.106" status="PASS"></status>
+</kw>
+<kw name="Step 3: get client's active services">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.107" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:11.107" endtime="20171108 11:59:11.107" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>client_id=${client_id}</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.108" level="INFO">&amp;{data} = { client_id=3 }</msg>
+<status starttime="20171108 11:59:11.107" endtime="20171108 11:59:11.108" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.109" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:11.108" endtime="20171108 11:59:11.109" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Post Request">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/client/services</arg>
+<arg>data=${data}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.119" level="INFO">Post Request using : alias=http, uri=/client/services, data={"client_id": "3"}, headers={'Content-Type': 'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20171108 11:59:11.119" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status starttime="20171108 11:59:11.109" endtime="20171108 11:59:11.119" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.119" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:11.119" endtime="20171108 11:59:11.119" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${resp.json()['items']}</arg>
+</arguments>
+<assign>
+<var>${CLIENT_SERVICES}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.120" level="INFO">${CLIENT_SERVICES} = [{'cost': 1.2, 'name': 'Service #1', 'id': 1}]</msg>
+<status starttime="20171108 11:59:11.120" endtime="20171108 11:59:11.120" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${CLIENT_SERVICES}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.120" level="INFO">${CLIENT_SERVICES} = [{'cost': 1.2, 'name': 'Service #1', 'id': 1}]</msg>
+<status starttime="20171108 11:59:11.120" endtime="20171108 11:59:11.121" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${CLIENT_SERVICES}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.121" level="INFO">[{'cost': 1.2, 'name': 'Service #1', 'id': 1}]</msg>
+<status starttime="20171108 11:59:11.121" endtime="20171108 11:59:11.121" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.106" endtime="20171108 11:59:11.121" status="PASS"></status>
+</kw>
+<kw name="Step 4: get all available services">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.122" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:11.122" endtime="20171108 11:59:11.122" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.123" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:11.122" endtime="20171108 11:59:11.123" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Get Request">
+<doc>Send a GET request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/services</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.128" level="INFO">Get Request using : alias=http, uri=/services, headers={'Content-Type': 'application/json'} json=None</msg>
+<msg timestamp="20171108 11:59:11.128" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status starttime="20171108 11:59:11.123" endtime="20171108 11:59:11.128" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.128" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:11.128" endtime="20171108 11:59:11.128" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${resp.json()['items']}</arg>
+</arguments>
+<assign>
+<var>${SERVICES}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.129" level="INFO">${SERVICES} = [{'cost': 1.2, 'name': 'Service #1', 'id': 1}, {'cost': 0.35, 'name': 'Service #2', 'id': 2}, {'cost': 0.15, 'name': 'Service #3', 'id': 3}, {'cost': 0.15, 'name': 'Service #4', 'id': 4}, {'cost': 0.0...</msg>
+<status starttime="20171108 11:59:11.129" endtime="20171108 11:59:11.129" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${SERVICES}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.130" level="INFO">${SERVICES} = [{'cost': 1.2, 'name': 'Service #1', 'id': 1}, {'cost': 0.35, 'name': 'Service #2', 'id': 2}, {'cost': 0.15, 'name': 'Service #3', 'id': 3}, {'cost': 0.15, 'name': 'Service #4', 'id': 4}, {'cost': 0.0...</msg>
+<status starttime="20171108 11:59:11.129" endtime="20171108 11:59:11.130" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${SERVICES}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.130" level="INFO">[{'cost': 1.2, 'name': 'Service #1', 'id': 1}, {'cost': 0.35, 'name': 'Service #2', 'id': 2}, {'cost': 0.15, 'name': 'Service #3', 'id': 3}, {'cost': 0.15, 'name': 'Service #4', 'id': 4}, {'cost': 0.05, 'name': 'Service #5', 'id': 5}]</msg>
+<status starttime="20171108 11:59:11.130" endtime="20171108 11:59:11.130" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.121" endtime="20171108 11:59:11.131" status="PASS"></status>
+</kw>
+<kw name="Step 5: get available service which is not active for the client">
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${SERVICES}</arg>
+</arguments>
+<assign>
+<var>${new_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.132" level="INFO">${new_services} = [{'cost': 1.2, 'name': 'Service #1', 'id': 1}, {'cost': 0.35, 'name': 'Service #2', 'id': 2}, {'cost': 0.15, 'name': 'Service #3', 'id': 3}, {'cost': 0.15, 'name': 'Service #4', 'id': 4}, {'cost': 0.0...</msg>
+<status starttime="20171108 11:59:11.131" endtime="20171108 11:59:11.132" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${CLIENT_SERVICES}</arg>
+</arguments>
+<assign>
+<var>@{active_client_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.132" level="INFO">@{active_client_services} = [ {'cost': 1.2, 'name': 'Service #1', 'id': 1} ]</msg>
+<status starttime="20171108 11:59:11.132" endtime="20171108 11:59:11.132" status="PASS"></status>
+</kw>
+<kw type="for" name="${item} IN [ @{active_client_services} ]">
+<kw type="foritem" name="${item} = {'cost': 1.2, 'name': 'Service #1', 'id': 1}">
+<kw library="Collections" name="Remove Values From List">
+<doc>Removes all occurrences of given ``values`` from ``list``.</doc>
+<arguments>
+<arg>${new_services}</arg>
+<arg>${item}</arg>
+</arguments>
+<status starttime="20171108 11:59:11.133" endtime="20171108 11:59:11.134" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.133" endtime="20171108 11:59:11.134" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.133" endtime="20171108 11:59:11.134" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Get Length">
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<arguments>
+<arg>${new_services}</arg>
+</arguments>
+<assign>
+<var>${len_new_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.134" level="INFO">Length is 4</msg>
+<msg timestamp="20171108 11:59:11.134" level="INFO">${len_new_services} = 4</msg>
+<status starttime="20171108 11:59:11.134" endtime="20171108 11:59:11.134" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Not Be Equal As Integers">
+<doc>Fails if objects are equal after converting them to integers.</doc>
+<arguments>
+<arg>${len_new_services}</arg>
+<arg>0</arg>
+<arg>msg="Client uses all available services"</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.135" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:11.135" endtime="20171108 11:59:11.135" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Evaluate">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>random.randint(0, ${len_new_services}-1)</arg>
+<arg>modules=random</arg>
+</arguments>
+<assign>
+<var>${random_index}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.135" level="INFO">${random_index} = 0</msg>
+<status starttime="20171108 11:59:11.135" endtime="20171108 11:59:11.135" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${new_services[${random_index}]['id']}</arg>
+</arguments>
+<assign>
+<var>${id_new_service}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.136" level="INFO">${id_new_service} = 2</msg>
+<status starttime="20171108 11:59:11.136" endtime="20171108 11:59:11.136" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${new_services[${random_index}]['cost']}</arg>
+</arguments>
+<assign>
+<var>${cost_new_service}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.136" level="INFO">${cost_new_service} = 0.35</msg>
+<status starttime="20171108 11:59:11.136" endtime="20171108 11:59:11.136" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${id_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.137" level="INFO">${id_new_service} = 2</msg>
+<status starttime="20171108 11:59:11.137" endtime="20171108 11:59:11.137" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${cost_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.137" level="INFO">${cost_new_service} = 0.35</msg>
+<status starttime="20171108 11:59:11.137" endtime="20171108 11:59:11.137" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${id_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.138" level="INFO">2</msg>
+<status starttime="20171108 11:59:11.137" endtime="20171108 11:59:11.138" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Log">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${cost_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.138" level="INFO">0.35</msg>
+<status starttime="20171108 11:59:11.138" endtime="20171108 11:59:11.138" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.131" endtime="20171108 11:59:11.138" status="PASS"></status>
+</kw>
+<kw name="Step 6: activate new service for the client">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.139" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:11.139" endtime="20171108 11:59:11.139" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>client_id=${client_id}</arg>
+<arg>service_id=${id_new_service}</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.140" level="INFO">&amp;{data} = { client_id=3 | service_id=2 }</msg>
+<status starttime="20171108 11:59:11.140" endtime="20171108 11:59:11.140" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.141" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:11.140" endtime="20171108 11:59:11.141" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Post Request">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/client/add_service</arg>
+<arg>data=${data}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.146" level="INFO">Post Request using : alias=http, uri=/client/add_service, data={"client_id": "3", "service_id": 2}, headers={'Content-Type': 'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20171108 11:59:11.146" level="INFO">${resp} = &lt;Response [202]&gt;</msg>
+<status starttime="20171108 11:59:11.141" endtime="20171108 11:59:11.146" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>202</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.147" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:11.146" endtime="20171108 11:59:11.147" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.139" endtime="20171108 11:59:11.147" status="PASS"></status>
+</kw>
+<kw name="Step 7: waiting until new service will be active">
+<kw library="BuiltIn" name="Wait Until Keyword Succeeds">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>120 seconds</arg>
+<arg>10 second</arg>
+<arg>post_until_succeeds</arg>
+</arguments>
+<kw name="post_until_succeeds">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.149" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:11.148" endtime="20171108 11:59:11.149" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>client_id=${client_id}</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.150" level="INFO">&amp;{data} = { client_id=3 }</msg>
+<status starttime="20171108 11:59:11.149" endtime="20171108 11:59:11.150" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.151" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:11.150" endtime="20171108 11:59:11.151" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Post Request">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/client/services</arg>
+<arg>data=${data}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.155" level="INFO">Post Request using : alias=http, uri=/client/services, data={"client_id": "3"}, headers={'Content-Type': 'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20171108 11:59:11.155" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status starttime="20171108 11:59:11.151" endtime="20171108 11:59:11.155" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.156" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:11.156" endtime="20171108 11:59:11.156" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${resp.json()['items']}</arg>
+</arguments>
+<assign>
+<var>@{services}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.156" level="INFO">@{services} = [ {'cost': 1.2, 'name': 'Service #1', 'id': 1} ]</msg>
+<status starttime="20171108 11:59:11.156" endtime="20171108 11:59:11.157" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create List">
+<doc>Returns a list containing given items.</doc>
+<assign>
+<var>${id_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:11.157" level="INFO">${id_services} = []</msg>
+<status starttime="20171108 11:59:11.157" endtime="20171108 11:59:11.157" status="PASS"></status>
+</kw>
+<kw type="for" name="${item} IN [ @{services} ]">
+<kw type="foritem" name="${item} = {'cost': 1.2, 'name': 'Service #1', 'id': 1}">
+<kw library="Collections" name="Append To List">
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${item['id']}</arg>
+</arguments>
+<status starttime="20171108 11:59:11.157" endtime="20171108 11:59:11.158" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.157" endtime="20171108 11:59:11.158" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.157" endtime="20171108 11:59:11.158" status="PASS"></status>
+</kw>
+<kw library="Collections" name="List Should Contain Value">
+<doc>Fails if the ``value`` is not found from ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${id_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:11.159" level="FAIL">[ 1 ] does not contain value '2'.</msg>
+<status starttime="20171108 11:59:11.158" endtime="20171108 11:59:11.159" status="FAIL"></status>
+</kw>
+<status starttime="20171108 11:59:11.148" endtime="20171108 11:59:11.159" status="FAIL"></status>
+</kw>
+<kw name="post_until_succeeds">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:21.160" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:21.160" endtime="20171108 11:59:21.160" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>client_id=${client_id}</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20171108 11:59:21.161" level="INFO">&amp;{data} = { client_id=3 }</msg>
+<status starttime="20171108 11:59:21.160" endtime="20171108 11:59:21.161" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:21.161" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:21.161" endtime="20171108 11:59:21.161" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Post Request">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/client/services</arg>
+<arg>data=${data}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:21.166" level="INFO">Post Request using : alias=http, uri=/client/services, data={"client_id": "3"}, headers={'Content-Type': 'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20171108 11:59:21.166" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status starttime="20171108 11:59:21.162" endtime="20171108 11:59:21.166" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20171108 11:59:21.166" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:21.166" endtime="20171108 11:59:21.166" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${resp.json()['items']}</arg>
+</arguments>
+<assign>
+<var>@{services}</var>
+</assign>
+<msg timestamp="20171108 11:59:21.167" level="INFO">@{services} = [ {'cost': 1.2, 'name': 'Service #1', 'id': 1} ]</msg>
+<status starttime="20171108 11:59:21.166" endtime="20171108 11:59:21.167" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create List">
+<doc>Returns a list containing given items.</doc>
+<assign>
+<var>${id_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:21.167" level="INFO">${id_services} = []</msg>
+<status starttime="20171108 11:59:21.167" endtime="20171108 11:59:21.167" status="PASS"></status>
+</kw>
+<kw type="for" name="${item} IN [ @{services} ]">
+<kw type="foritem" name="${item} = {'cost': 1.2, 'name': 'Service #1', 'id': 1}">
+<kw library="Collections" name="Append To List">
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${item['id']}</arg>
+</arguments>
+<status starttime="20171108 11:59:21.167" endtime="20171108 11:59:21.168" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:21.167" endtime="20171108 11:59:21.168" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:21.167" endtime="20171108 11:59:21.168" status="PASS"></status>
+</kw>
+<kw library="Collections" name="List Should Contain Value">
+<doc>Fails if the ``value`` is not found from ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${id_new_service}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:21.168" level="FAIL">[ 1 ] does not contain value '2'.</msg>
+<status starttime="20171108 11:59:21.168" endtime="20171108 11:59:21.168" status="FAIL"></status>
+</kw>
+<status starttime="20171108 11:59:21.159" endtime="20171108 11:59:21.168" status="FAIL"></status>
+</kw>
+<kw name="post_until_succeeds">
+<kw library="RequestsLibrary" name="Create Session">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>http</arg>
+<arg>http://${HOST}:${PORT}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:31.169" level="INFO">Creating Session using : alias=http, url=http://localhost:5000, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status starttime="20171108 11:59:31.169" endtime="20171108 11:59:31.170" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>client_id=${client_id}</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.171" level="INFO">&amp;{data} = { client_id=3 }</msg>
+<status starttime="20171108 11:59:31.170" endtime="20171108 11:59:31.171" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create Dictionary">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>&amp;{headers}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.171" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status starttime="20171108 11:59:31.171" endtime="20171108 11:59:31.171" status="PASS"></status>
+</kw>
+<kw library="RequestsLibrary" name="Post Request">
+<doc>Send a POST request on the session object found using the</doc>
+<arguments>
+<arg>http</arg>
+<arg>/client/services</arg>
+<arg>data=${data}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.176" level="INFO">Post Request using : alias=http, uri=/client/services, data={"client_id": "3"}, headers={'Content-Type': 'application/json'}, files=None, allow_redirects=True </msg>
+<msg timestamp="20171108 11:59:31.176" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status starttime="20171108 11:59:31.171" endtime="20171108 11:59:31.176" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Strings">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${resp.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20171108 11:59:31.177" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status starttime="20171108 11:59:31.176" endtime="20171108 11:59:31.177" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${resp.json()['items']}</arg>
+</arguments>
+<assign>
+<var>@{services}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.177" level="INFO">@{services} = [ {'cost': 1.2, 'name': 'Service #1', 'id': 1} | {'cost': 0.35, 'name': 'Service #2', 'id': 2} ]</msg>
+<status starttime="20171108 11:59:31.177" endtime="20171108 11:59:31.177" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Create List">
+<doc>Returns a list containing given items.</doc>
+<assign>
+<var>${id_services}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.178" level="INFO">${id_services} = []</msg>
+<status starttime="20171108 11:59:31.178" endtime="20171108 11:59:31.178" status="PASS"></status>
+</kw>
+<kw type="for" name="${item} IN [ @{services} ]">
+<kw type="foritem" name="${item} = {'cost': 1.2, 'name': 'Service #1', 'id': 1}">
+<kw library="Collections" name="Append To List">
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${item['id']}</arg>
+</arguments>
+<status starttime="20171108 11:59:31.178" endtime="20171108 11:59:31.178" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:31.178" endtime="20171108 11:59:31.178" status="PASS"></status>
+</kw>
+<kw type="foritem" name="${item} = {'cost': 0.35, 'name': 'Service #2', 'id': 2}">
+<kw library="Collections" name="Append To List">
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${item['id']}</arg>
+</arguments>
+<status starttime="20171108 11:59:31.179" endtime="20171108 11:59:31.179" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:31.179" endtime="20171108 11:59:31.179" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:31.178" endtime="20171108 11:59:31.179" status="PASS"></status>
+</kw>
+<kw library="Collections" name="List Should Contain Value">
+<doc>Fails if the ``value`` is not found from ``list``.</doc>
+<arguments>
+<arg>${id_services}</arg>
+<arg>${id_new_service}</arg>
+</arguments>
+<status starttime="20171108 11:59:31.179" endtime="20171108 11:59:31.179" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:31.169" endtime="20171108 11:59:31.179" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.147" endtime="20171108 11:59:31.180" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:11.147" endtime="20171108 11:59:31.180" status="PASS"></status>
+</kw>
+<kw name="Step 8: get client's balance">
+<kw library="DatabaseLibrary" name="Query">
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional</doc>
+<arguments>
+<arg>SELECT balance FROM balances WHERE clients_client_id=${client_id};</arg>
+</arguments>
+<assign>
+<var>${client_balance}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.180" level="INFO">Executing : Query  |  SELECT balance FROM balances WHERE clients_client_id=3; </msg>
+<msg timestamp="20171108 11:59:31.180" level="INFO">${client_balance} = [(3.5,)]</msg>
+<status starttime="20171108 11:59:31.180" endtime="20171108 11:59:31.180" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Variable">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${client_balance[0][0]}</arg>
+</arguments>
+<assign>
+<var>${result_client_balance}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.181" level="INFO">${result_client_balance} = 3.5</msg>
+<status starttime="20171108 11:59:31.181" endtime="20171108 11:59:31.181" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Set Test Variable">
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<arguments>
+<arg>${result_client_balance}</arg>
+</arguments>
+<msg timestamp="20171108 11:59:31.181" level="INFO">${result_client_balance} = 3.5</msg>
+<status starttime="20171108 11:59:31.181" endtime="20171108 11:59:31.181" status="PASS"></status>
+</kw>
+<status starttime="20171108 11:59:31.180" endtime="20171108 11:59:31.181" status="PASS"></status>
+</kw>
+<kw name="Step 9: check the client's balance">
+<kw library="BuiltIn" name="Evaluate">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${init_client_balance}-${cost_new_service}</arg>
+</arguments>
+<assign>
+<var>${calc_balance}</var>
+</assign>
+<msg timestamp="20171108 11:59:31.182" level="INFO">${calc_balance} = 3.15</msg>
+<status starttime="20171108 11:59:31.182" endtime="20171108 11:59:31.182" status="PASS"></status>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Numbers">
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<arguments>
+<arg>${calc_balance}</arg>
+<arg>${result_client_balance}</arg>
+<arg>precision=2</arg>
+<arg>msg="Client's balance is not correct, expected balance != result balance"</arg>
+</arguments>
+<msg timestamp="20171108 11:59:31.183" level="FAIL">"Client's balance is not correct, expected balance != result balance": 3.15 != 3.5</msg>
+<status starttime="20171108 11:59:31.182" endtime="20171108 11:59:31.183" status="FAIL"></status>
+</kw>
+<status starttime="20171108 11:59:31.182" endtime="20171108 11:59:31.183" status="FAIL"></status>
+</kw>
+<status starttime="20171108 11:59:11.098" endtime="20171108 11:59:31.183" status="FAIL" critical="yes">"Client's balance is not correct, expected balance != result balance": 3.15 != 3.5</status>
+</test>
+<status starttime="20171108 11:59:10.994" endtime="20171108 11:59:31.184" status="FAIL"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" name="Tests" id="s1">Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
